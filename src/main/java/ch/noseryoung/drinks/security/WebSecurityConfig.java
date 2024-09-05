@@ -60,12 +60,21 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer
+                        .configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        requests -> requests.requestMatchers(HttpMethod.OPTIONS).permitAll().requestMatchers(HttpMethod.GET, "/hello").permitAll().requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                .anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        requests -> requests
+                                .requestMatchers(HttpMethod.OPTIONS)
+                                .permitAll()
+                                .requestMatchers(HttpMethod.GET, "/hello")
+                                .permitAll()
+                                .requestMatchers(HttpMethod.POST, "/login")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
